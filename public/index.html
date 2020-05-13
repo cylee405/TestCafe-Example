@@ -20,5 +20,18 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <script>
+      function getZero() {
+        return 0;
+      }
+      function getOne() {
+        return 1;
+      }
+      function addAll(...args) {
+        var sum=0;
+        args.forEach((a) => {sum+=a})
+        return sum
+      }
+    </script>
   </body>
 </html>
