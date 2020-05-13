@@ -1,5 +1,16 @@
 import { Selector } from 'testcafe'
 import { waitForReact } from 'testcafe-react-selectors'
+import { ClientFunction } from 'testcafe'
+
+const testClient = ClientFunction((func, ...args) => {
+  var funcs = func.split('.');
+  var func = window;
+  if(funcs.length>0 && funcs[0] == 'window') {
+    func = {window:window};
+  }
+  funcs.forEach((f) => {func = func[f]})
+  return func.apply(null, args);
+})
 
 fixture `Getting Started`
   .page `http://localhost:3000/`
@@ -48,6 +59,16 @@ test('Gradually delete tasks and check it item', async t => {
     .expect(Selector('.alert').nth(0).innerText).eql('task 2')
     .click(Selector('.alert').nth(0))
     .expect(Selector('.alert').count).eql(0)
+})
+
+test('Test function 1', async t => {
+  await t
+    .expect(testClient('getOne')).eql(1)
+    .expect(testClient('getZero')).eql(0)
+    .expect(testClient('window.getOne')).eql(1)
+    .expect(testClient('window.getZero')).eql(0)
+    .expect(testClient('window.addAll', 1, 2, 3, 4, 5)).eql(15)
+
 })
 
 class TodosPage {
