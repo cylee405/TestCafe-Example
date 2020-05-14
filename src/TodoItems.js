@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 class TodoItems extends Component {
   createTasks = item => {
     return (
-      <div class="alert alert-success" role="alert"
+      <div className="alert alert-success" role="alert"
         key={item.key} onClick={() => this.props.deleteItem(item.key)}>
         {item.text}
       </div>
